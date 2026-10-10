@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101020">
+  <title>Theo AI</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: system-ui, sans-serif;
+      background: #101020; color: #f5f3ff;
+    }
+    header {
+      padding: 18px; border-bottom: 1px solid #302d4b;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .logo {
+      background: linear-gradient(135deg,#8b5cf6,#22d3ee);
+      color: #101020; font-weight: 900; padding: 10px;
+      border-radius: 12px;
+    }
+    main { max-width: 760px; margin: auto; padding: 22px; }
+    h1 { font-size: 32px; }
+    .muted { color: #aaa8c5; }
+    #chat {
+      min-height: 280px; padding: 16px; border-radius: 16px;
+      border: 1px solid #373451; background: #19182b;
+    }
+    .message {
+      padding: 12px 14px; margin: 10px 0;
+      border-radius: 12px; white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .user { background: #39305e; }
+    .bot { background: #25243a; }
+    form { display: flex; gap: 8px; margin-top: 12px; }
+    input {
+      flex: 1; min-width: 0; padding: 14px;
+      border-radius: 12px; border: 1px solid #45415f;
+      background: #19182b; color: white;
+    }
+    button {
+      padding: 12px 16px; border: 0; border-radius: 12px;
+      background: #a78bfa; color: #151128;
+      font-weight: 700; cursor: pointer;
+    }
+    footer { margin-top: 16px; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">T</div>
+    <div>
+      <strong>Theo AI</strong><br>
+      <span class="muted">Your AI assistant</span>
+    </div>
+  </header>
+
+  <main>
+    <h1>Meet Theo AI.</h1>
+    <p class="muted">Think. Create. Explore. Build.</p>
+
+    <section id="chat" aria-live="polite">
+      <div class="message bot">
+        Hello! I'm Theo AI. My interface is ready.
+        My real AI brain will be connected next.
+      </div>
+    </section>
+
+    <form id="form">
+      <input id="prompt" placeholder="Message Theo AI..."
+        aria-label="Your message" required>
+      <button type="submit">Send</button>
+    </form>
+
+    <footer class="muted">
+      Prototype only  AI backend not connected yet.
+    </footer>
+  </main>
+
+  <script>
+    const form = document.querySelector("#form");
+    const input = document.querySelector("#prompt");
+    const chat = document.querySelector("#chat");
+
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+      const message = input.value.trim();
+      if (!message) return;
+
+      const bubble = document.createElement("div");
+      bubble.className = "message user";
+      bubble.textContent = message;
+      chat.appendChild(bubble);
+
+      const reply = document.createElement("div");
+      reply.className = "message bot";
+      reply.textContent =
+        "Your message is displayed. Theo's AI backend isn't connected yet.";
+      chat.appendChild(reply);
+
+      input.value = "";
+      chat.scrollTop = chat.scrollHeight;
+    });
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101020">
+  <title>Theo AI</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: system-ui, sans-serif;
+      background: #101020; color: #f5f3ff;
+    }
+    header {
+      padding: 18px; border-bottom: 1px solid #302d4b;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .logo {
+      background: linear-gradient(135deg,#8b5cf6,#22d3ee);
+      color: #101020; font-weight: 900; padding: 10px;
+      border-radius: 12px;
+    }
+    main { max-width: 760px; margin: auto; padding: 22px; }
+    h1 { font-size: 32px; }
+    .muted { color: #aaa8c5; }
+    #chat {
+      min-height: 280px; padding: 16px; border-radius: 16px;
+      border: 1px solid #373451; background: #19182b;
+    }
+    .message {
+      padding: 12px 14px; margin: 10px 0;
+      border-radius: 12px; white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .user { background: #39305e; }
+    .bot { background: #25243a; }
+    form { display: flex; gap: 8px; margin-top: 12px; }
+    input {
+      flex: 1; min-width: 0; padding: 14px;
+      border-radius: 12px; border: 1px solid #45415f;
+      background: #19182b; color: white;
+    }
+    button {
+      padding: 12px 16px; border: 0; border-radius: 12px;
+      background: #a78bfa; color: #151128;
+      font-weight: 700; cursor: pointer;
+    }
+    footer { margin-top: 16px; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">T</div>
+    <div>
+      <strong>Theo AI</strong><br>
+      <span class="muted">Your AI assistant</span>
+    </div>
+  </header>
+
+  <main>
+    <h1>Meet Theo AI.</h1>
+    <p class="muted">Think. Create. Explore. Build.</p>
+
+    <section id="chat" aria-live="polite">
+      <div class="message bot">
+        Hello! I'm Theo AI. My interface is ready.
+        My real AI brain will be connected next.
+      </div>
+    </section>
+
+    <form id="form">
+      <input id="prompt" placeholder="Message Theo AI..."
+        aria-label="Your message" required>
+      <button type="submit">Send</button>
+    </form>
+
+    <footer class="muted">
+      Prototype only  AI backend not connected yet.
+    </footer>
+  </main>
+
+  <script>
+    const form = document.querySelector("#form");
+    const input = document.querySelector("#prompt");
+    const chat = document.querySelector("#chat");
+
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+      const message = input.value.trim();
+      if (!message) return;
+
+      const bubble = document.createElement("div");
+      bubble.className = "message user";
+      bubble.textContent = message;
+      chat.appendChild(bubble);
+
+      const reply = document.createElement("div");
+      reply.className = "message bot";
+      reply.textContent =
+        "Your message is displayed. Theo's AI backend isn't connected yet.";
+      chat.appendChild(reply);
+
+      input.value = "";
+      chat.scrollTop = chat.scrollHeight;
+    });
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101020">
+  <title>Theo AI</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: system-ui, sans-serif;
+      background: #101020; color: #f5f3ff;
+    }
+    header {
+      padding: 18px; border-bottom: 1px solid #302d4b;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .logo {
+      background: linear-gradient(135deg,#8b5cf6,#22d3ee);
+      color: #101020; font-weight: 900; padding: 10px;
+      border-radius: 12px;
+    }
+    main { max-width: 760px; margin: auto; padding: 22px; }
+    h1 { font-size: 32px; }
+    .muted { color: #aaa8c5; }
+    #chat {
+      min-height: 280px; padding: 16px; border-radius: 16px;
+      border: 1px solid #373451; background: #19182b;
+    }
+    .message {
+      padding: 12px 14px; margin: 10px 0;
+      border-radius: 12px; white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .user { background: #39305e; }
+    .bot { background: #25243a; }
+    form { display: flex; gap: 8px; margin-top: 12px; }
+    input {
+      flex: 1; min-width: 0; padding: 14px;
+      border-radius: 12px; border: 1px solid #45415f;
+      background: #19182b; color: white;
+    }
+    button {
+      padding: 12px 16px; border: 0; border-radius: 12px;
+      background: #a78bfa; color: #151128;
+      font-weight: 700; cursor: pointer;
+    }
+    footer { margin-top: 16px; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">T</div>
+    <div>
+      <strong>Theo AI</strong><br>
+      <span class="muted">Your AI assistant</span>
+    </div>
+  </header>
+
+  <main>
+    <h1>Meet Theo AI.</h1>
+    <p class="muted">Think. Create. Explore. Build.</p>
+
+    <section id="chat" aria-live="polite">
+      <div class="message bot">
+        Hello! I'm Theo AI. My interface is ready.
+        My real AI brain will be connected next.
+      </div>
+    </section>
+
+    <form id="form">
+      <input id="prompt" placeholder="Message Theo AI..."
+        aria-label="Your message" required>
+      <button type="submit">Send</button>
+    </form>
+
+    <footer class="muted">
+      Prototype only  AI backend not connected yet.
+    </footer>
+  </main>
+
+  <script>
+    const form = document.querySelector("#form");
+    const input = document.querySelector("#prompt");
+    const chat = document.querySelector("#chat");
+
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+      const message = input.value.trim();
+      if (!message) return;
+
+      const bubble = document.createElement("div");
+      bubble.className = "message user";
+      bubble.textContent = message;
+      chat.appendChild(bubble);
+
+      const reply = document.createElement("div");
+      reply.className = "message bot";
+      reply.textContent =
+        "Your message is displayed. Theo's AI backend isn't connected yet.";
+      chat.appendChild(reply);
+
+      input.value = "";
+      chat.scrollTop = chat.scrollHeight;
+    });
+  </script>
+</body>
+</html>
