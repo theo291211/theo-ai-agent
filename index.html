@@ -85,7 +85,50 @@
     const input = document.querySelector("#prompt");
     const chat = document.querySelector("#chat");
 
-    form.addEventListener("submit", event => {
+    form.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const message = input.value.trim();
+  if (!message) return;
+
+  const bubble = document.createElement("div");
+  bubble.className = "message user";
+  bubble.textContent = message;
+  chat.appendChild(bubble);
+
+  input.value = "";
+
+  const reply = document.createElement("div");
+  reply.className = "message bot";
+  reply.textContent = "Theo AI စဉ်းစားနေပါတယ်...";
+  chat.appendChild(reply);
+
+  chat.scrollTop = chat.scrollHeight;
+
+  try {
+    const response = await fetch(
+      "https://effulgent-kangaroo-bd6fd5.netlify.app/.netlify/functions/chat",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "AI ချိတ်ဆက်မှု မအောင်မြင်ပါ။");
+    }
+
+    reply.textContent = data.reply || "အဖြေမရရှိသေးပါ။";
+  } catch (error) {
+    reply.textContent =
+      "Theo AI ကို ချိတ်ဆက်မရသေးပါ။ Netlify backend ကို ပြန်စစ်ပေးပါ bro။";
+  }
+
+  chat.scrollTop = chat.scrollHeight;
+});
       event.preventDefault();
       const message = input.value.trim();
       if (!message) return;
@@ -301,7 +344,50 @@
     const input = document.querySelector("#prompt");
     const chat = document.querySelector("#chat");
 
-    form.addEventListener("submit", event => {
+    form.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const message = input.value.trim();
+  if (!message) return;
+
+  const bubble = document.createElement("div");
+  bubble.className = "message user";
+  bubble.textContent = message;
+  chat.appendChild(bubble);
+
+  input.value = "";
+
+  const reply = document.createElement("div");
+  reply.className = "message bot";
+  reply.textContent = "Theo AI စဉ်းစားနေပါတယ်...";
+  chat.appendChild(reply);
+
+  chat.scrollTop = chat.scrollHeight;
+
+  try {
+    const response = await fetch(
+      "https://effulgent-kangaroo-bd6fd5.netlify.app/.netlify/functions/chat",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "AI ချိတ်ဆက်မှု မအောင်မြင်ပါ။");
+    }
+
+    reply.textContent = data.reply || "အဖြေမရရှိသေးပါ။";
+  } catch (error) {
+    reply.textContent =
+      "Theo AI ကို ချိတ်ဆက်မရသေးပါ။ Netlify backend ကို ပြန်စစ်ပေးပါ bro။";
+  }
+
+  chat.scrollTop = chat.scrollHeight;
+});
       event.preventDefault();
       const message = input.value.trim();
       if (!message) return;
