@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1020">
+  <title>Theo AI</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #0b1020;
+      color: #f5f7ff;
+      min-height: 100vh;
+    }
+    .app {
+      max-width: 850px;
+      margin: auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 18px;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0 20px;
+      border-bottom: 1px solid #252d42;
+    }
+    .logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg,#8b5cf6,#22d3ee);
+      color: white;
+      font-size: 25px;
+      font-weight: bold;
+    }
+    h1 { font-size: 21px; margin: 0; }
+    .status { color: #a5b4fc; font-size: 13px; margin-top: 4px; }
+    #chat {
+      flex: 1;
+      min-height: 55vh;
+      padding: 24px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .welcome {
+      margin: auto 0;
+      text-align: center;
+      padding: 24px 8px;
+    }
+    .welcome .big { font-size: 48px; }
+    .welcome h2 { font-size: 26px; margin: 12px 0 8px; }
+    .welcome p { color: #a8b1c8; line-height: 1.7; }
+    .message {
+      max-width: 88%;
+      padding: 13px 16px;
+      border-radius: 18px;
+      line-height: 1.65;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .user {
+      align-self: flex-end;
+      background: #5145cd;
+      border-bottom-right-radius: 5px;
+    }
+    .bot {
+      align-self: flex-start;
+      background: #171f33;
+      border: 1px solid #29334b;
+      border-bottom-left-radius: 5px;
+    }
+    .error { color: #fecaca; }
+    form {
+      display: flex;
+      gap: 10px;
+      padding: 12px;
+      background: #151c2e;
+      border: 1px solid #303951;
+      border-radius: 20px;
+    }
+    textarea {
+      flex: 1;
+      min-width: 0;
+      resize: none;
+      max-height: 140px;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: white;
+      font: inherit;
+      padding: 10px 4px;
+    }
+    textarea::placeholder { color: #8994ae; }
+    button {
+      border: 0;
+      border-radius: 14px;
+      padding: 0 18px;
+      background: #7464f5;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    button:disabled { opacity: .5; }
+    .note {
+      color: #8490aa;
+      font-size: 12px;
+      text-align: center;
+      padding: 12px 0;
+    }
+    @media (max-width: 480px) {
+      .app { padding: 12px; }
+      .message { max-width: 94%; }
+      .welcome h2 { font-size: 23px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div class="logo">T</div>
+      <div>
+        <h1>Theo AI</h1>
+        <div class="status">Your AI assistant  မင်္ဂလာပါ bro!</div>
+      </div>
+    </header>
+
+    <section id="chat" aria-live="polite">
+      <div class="welcome" id="welcome">
+        <div class="big"></div>
+        <h2>မင်္ဂလာပါ! I'm Theo AI</h2>
+        <p>ဘာမေးချင်လဲ bro?<br>
+        မြန်မာလိုဖြစ်ဖြစ် English လိုဖြစ်ဖြစ် မေးနိုင်ပါတယ်။</p>
+      </div>
+    </section>
+
+    <form id="chatForm">
+      <textarea id="messageInput" rows="1"
+        placeholder="Theo AI ကို မေးလိုက်ပါ..."
+        aria-label="Your message" required></textarea>
+      <button id="sendButton" type="submit">Send</button>
+    </form>
+    <div class="note">Theo AI can make mistakes. Check important information.</div>
+  </main>
+
+  <script>
+    const form = document.getElementById("chatForm");
+    const input = document.getElementById("messageInput");
+    const chat = document.getElementById("chat");
+    const button = document.getElementById("sendButton");
+    const welcome = document.getElementById("welcome");
+
+    const API_URL =
+      "https://effulgent-kangaroo-bd6fd5.netlify.app/.netlify/functions/chat";
+
+    function addMessage(text, who) {
+      const div = document.createElement("div");
+      div.className = "message " + who;
+      div.textContent = text;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+      return div;
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const message = input.value.trim();
+      if (!message || button.disabled) return;
+
+      welcome?.remove();
+
+      addMessage(message, "user");
+      input.value = "";
+      button.disabled = true;
+      button.textContent = "...";
+
+      const reply = addMessage("Theo AI စဉ်းစားနေပါတယ်...", "bot");
+
+      try {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || "HTTP " + response.status);
+        }
+
+        reply.textContent = data.reply || "အဖြေမရရှိသေးပါ။";
+      } catch (error) {
+        console.error("Theo AI error:", error);
+        reply.classList.add("error");
+        reply.textContent =
+          "AI server ကို ချိတ်ဆက်မရသေးပါ။ (" +
+          error.message +
+          ") Netlify backend ကို စစ်ဆေးပေးပါ bro။";
+      } finally {
+        button.disabled = false;
+        button.textContent = "Send";
+        input.focus();
+      }
+    });
+
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        form.requestSubmit();
+      }
+    });
+  </script>
+</body>
+</html>
